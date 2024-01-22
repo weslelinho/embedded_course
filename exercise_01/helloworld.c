@@ -18,7 +18,7 @@ void *printThread(void *threadp)
     int sum=0, i;
     threadParams_t *threadParams = (threadParams_t *)threadp;
 
-    syslog(LOG_INFO, "Helloworld From thread\n");
+    syslog(LOG_INFO, "Hello World from Thread!\n");
 }
 
 void log_uname(void) {
@@ -39,7 +39,7 @@ void log_uname(void) {
 int main (int argc, char *argv[]){
 
     system("echo > /dev/null | sudo tee /var/log/syslog"); // clear syslog
-    openlog("[COURSE:1][ASSIGNMENT:1]WeslleyAraujo", LOG_NDELAY, LOG_DAEMON);
+    openlog("pthread: [COURSE:1][ASSIGNMENT:1] Weslley Araujo", LOG_NDELAY, LOG_DAEMON);
 
      log_uname();
 
