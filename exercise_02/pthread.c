@@ -37,24 +37,26 @@ int gsum=0;
 
 void *incThread(void *threadp)
 {
-    int i;
     threadParams_t *threadParams = (threadParams_t *)threadp;
     
-    gsum+=threadParams->threadIdx;
-    syslog(LOG_INFO,"Thread idx=%d, sum[1...%d]=%d\n", threadParams->threadIdx,threadParams->threadIdx, gsum);
-    
+    gsum += threadParams->threadIdx;
+    syslog(LOG_INFO,"Thread idx=%d, sum[1...%d]=%d using cpu %d\n", threadParams->threadIdx,threadParams->threadIdx, gsum, sched_getcpu());
+    return EXIT_SUCCESS;
 }
 
 void initLog()
 {
-    system("echo > /dev/null | sudo tee /var/log/syslog"); // clear syslog
+    int result = system("echo > /dev/null | sudo tee /var/log/syslog"); // clear syslog
+    if (result < 0){
+      printf("Error while executing system command");
+    }
     openlog("pthread: [COURSE:1][ASSIGNMENT:2] Weslley Araujo", LOG_NDELAY, LOG_DAEMON);
     log_uname();
+
 }
 
 int main (int argc, char *argv[])
 {
-    int rc;
     int i=0;
     initLog();
 
