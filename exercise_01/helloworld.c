@@ -1,7 +1,6 @@
 #include <pthread.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include <sched.h>
 #include <syslog.h>
 
 typedef struct
@@ -15,10 +14,8 @@ threadParams_t threadParams;
 
 void *printThread(void *threadp)
 {
-    int sum=0, i;
-    threadParams_t *threadParams = (threadParams_t *)threadp;
-
     syslog(LOG_INFO, "Hello World from Thread!\n");
+    return EXIT_SUCCESS;
 }
 
 void log_uname(void) {
@@ -38,7 +35,10 @@ void log_uname(void) {
 
 int main (int argc, char *argv[]){
 
-    system("echo > /dev/null | sudo tee /var/log/syslog"); // clear syslog
+    int result = system("echo > /dev/null | sudo tee /var/log/syslog"); // clear syslog
+     if (result < 0){
+      printf("Error while executing system command");
+    }
     openlog("pthread: [COURSE:1][ASSIGNMENT:1] Weslley Araujo", LOG_NDELAY, LOG_DAEMON);
 
      log_uname();
@@ -58,5 +58,5 @@ int main (int argc, char *argv[]){
     printf("TEST COMPLETE");
     closelog();
 
-  return 0;
+  return EXIT_SUCCESS;
 }
