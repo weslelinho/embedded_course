@@ -58,3 +58,5 @@ dkms.conf
 # End of https://www.toptal.com/developers/gitignore/api/c
 exercise_01/helloworld
 exercise_02/pthread
+exercise_03/pthread
+exercise_02/syslog-prog-1.2.txt
