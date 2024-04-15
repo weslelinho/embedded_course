@@ -44,7 +44,7 @@ void *incThread(void *threadp)
     return EXIT_SUCCESS;
 }
 
-void initLog()
+void init_log()
 {
     int result = system("echo > /dev/null | sudo tee /var/log/syslog"); // clear syslog
     if (result < 0){
@@ -58,7 +58,7 @@ void initLog()
 int main (int argc, char *argv[])
 {
     int i=0;
-    initLog();
+    init_log();
 
     for (i=0;i<COUNT;i++)
     {

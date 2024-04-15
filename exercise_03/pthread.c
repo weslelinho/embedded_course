@@ -46,13 +46,13 @@ void log_uname(void) {
   pclose(fp);
 }
 
-void initLog()
+void init_log()
 {
     int result = system("echo > /dev/null | sudo tee /var/log/syslog"); // clear syslog
     if (result < 0){
       printf("Error while executing system command");
     }
-    openlog("pthread: [COURSE:1][ASSIGNMENT:3] Weslley Araujo", LOG_NDELAY, LOG_DAEMON);
+    openlog("pthread: [COURSE:1][ASSIGNMENT:4] Weslley Araujo", LOG_NDELAY, LOG_DAEMON);
     log_uname();
 }
 
@@ -82,7 +82,6 @@ void set_scheduler(void)
     int max_prio, rc, cpuidx;
      cpu_set_t cpuset;
     
-
     pthread_attr_init(&fifo_sched_attr);
     pthread_attr_setinheritsched(&fifo_sched_attr, PTHREAD_EXPLICIT_SCHED); //Threads that are created using fifo_sched_attr 
                                                                             //take their scheduling attributes from the values 
@@ -90,10 +89,9 @@ void set_scheduler(void)
 
     pthread_attr_setschedpolicy(&fifo_sched_attr, SCHED_POLICY);
     
-     CPU_ZERO(&cpuset);
-     cpuidx=(3);
-     
-     CPU_SET(cpuidx, &cpuset);
+    CPU_ZERO(&cpuset);
+    cpuidx=(3);
+    CPU_SET(cpuidx, &cpuset);
     pthread_attr_setaffinity_np(&fifo_sched_attr, sizeof(cpu_set_t), &cpuset);
 
     max_prio=sched_get_priority_max(SCHED_POLICY);
@@ -121,7 +119,7 @@ void *counterThread(void *threadp)
     {
         sum+= i;
     }   
-    syslog(LOG_INFO,"Thread idx=%d, sum[1...%d]=%d, running on CPU=%d", 
+    syslog(LOG_INFO,"Thread idx=%d, sum[1...%d]=%d, Running on Core=%d", 
            threadParams->threadIdx,
            threadParams->threadIdx, sum, sched_getcpu());
     return EXIT_SUCCESS;
@@ -156,7 +154,7 @@ void *starterThread(void *threadp)
 
 int main (int argc, char *argv[])
 {
-    initLog();
+    init_log();
     printf("INIT "); print_scheduler();
    int rc;
    int j;
